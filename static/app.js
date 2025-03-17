@@ -1,4 +1,5 @@
 var game_data_container = null;
+var display_word = "";
 
 //should prompt if user tries to refresh?
 function refresh_prompt(){
@@ -11,37 +12,27 @@ function refresh_prompt(){
 function begin_game(){
     //begin game logic, load game interface
     display_word = "";
-    $.ajax({
-        url: '/init', //api route to be called
-        type: 'POST', //request type, POST or GET
-        success: function(response) { //what to do if the server responds successfully
-            for(i=0;i<response[1];i++){
-                display_word
-            }
-        },
-        error: function(error) { //what to do if the server responds with an error
-            console.log(error);
-            update_debug_state('ajax error');
-        }
-    })
+    window.location.href = '/init';
 }
 
 function init(){
     //begin game logic, load game interface
     display_word = "";
-    $.ajax({
+    window.location.href = '/init';
+/*     $.ajax({
         url: '/init', //api route to be called
         type: 'POST', //request type, POST or GET
         success: function(response) { //what to do if the server responds successfully
             //do something
+            window.location.href = '/init'
         },
         error: function(error) { //what to do if the server responds with an error
             console.log(error);
             update_debug_state('ajax error');
         }
-    })
+    }) */
 }
-
+/*
 function generate_word(){
     //reset score
     text ="";
@@ -72,8 +63,9 @@ function update_debug_state(state){
 
 function update_word_display(){
     document.getElementById('word_container').innerHTML = "Word: ".concat(display_word);
-}
+}*/
 
+// TODO: update this with an AJAX req to handle game logic accordingly
 function submit_guess() {
     var guess = document.getElementById('input_box').value; //grab value from user input box
     var alphaCheck = /^[A-Za-z]+$/.test(guess); //checks whether the string only contains alphabetical characters
@@ -83,16 +75,13 @@ function submit_guess() {
     } else if (!alphaCheck){ //only if guess does not contain only alphabetical characters
         update_game_message("Please only use english alphabetical characters.");
         update_debug_state("alpha_err");
-    } else if(char_graveyard.includes(guess)) {
-        update_game_message("You already guessed that character.");
-        update_debug_state("dupl_err");
     } else { //call to search for char/update string
         char_graveyard.push(guess);
         game_search(guess);
     }
     document.getElementById("input_box").value = ""; //reset input box to prepare for new guess
 }
-
+/*
 function game_search(e) {
     var char_array = [...display_word];//convert these to arrays for ease of individual searching
     var game_array = [...game_word];
@@ -117,4 +106,4 @@ function game_search(e) {
         update_game_message("Well done! The word was " + game_word);
         update_debug_state("win");
     }
-}
+}*/

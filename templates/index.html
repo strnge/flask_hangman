@@ -9,8 +9,20 @@
     <script src="{{ url_for('static',filename='app.js') }}"></script>
 </head>
 <body>
-<div id="main_container" onbeforeunload="refreshPrompt()">
-    {% include html_file %}
+<div id="main_container">
+    <div id="inner_container" onbeforeunload="refreshPrompt()">
+        <h1>Hangman!</h1>
+        <h2>motd goes here</h2>
+        <p id="health_counter">Guesses remaining: {{ health }}</p>
+        <p id="game_message">game message goes here </p>
+        <p id="score_container">Wins: {{ wins }} || Losses: {{ losses }}</p>
+        <p id="word_container">Word: {{ display_word }}</p>
+        <p id="graveyard">Graveyard: {{ graveyard }}</p>
+        <p id="state_debug">State = {{ state }}</p>
+        <input id="input_box" type="text">
+        <button type="button" onclick="submit_guess()">Submit guess</button>
+        <button type="button" onclick="init()">Restart</button>
+    </div>
 </div>
 
 </body>
