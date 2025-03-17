@@ -1,0 +1,40 @@
+{
+    "scoreboard": [
+        {
+            "name": "tapi",
+            "score": 99
+        },
+        {
+            "name": "rae",
+            "score": 10
+        },
+        {
+            "name": "sally",
+            "score": 9
+        },
+        {
+            "name": "kit",
+            "score": 8
+        },
+        {
+            "name": "yuki",
+            "score": 5
+        },
+        {
+            "name": "moon",
+            "score": 3
+        },
+        {
+            "name": "phobos",
+            "score": 2
+        },
+        {
+            "name": "gordie",
+            "score": -1
+        },
+        {
+            "name": "test",
+            "score": -1
+        }
+    ]
+}
