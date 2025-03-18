@@ -76,8 +76,11 @@ function submit_guess() {
         update_game_message("Please only use english alphabetical characters.");
         update_debug_state("alpha_err");
     } else { //call to search for char/update string
-        char_graveyard.push(guess);
-        game_search(guess);
+        //char_graveyard.push(guess);
+        var response = fetch("/send_guess", {
+            method: 'POST',
+            //TODO: maybe solution?
+        })
     }
     document.getElementById("input_box").value = ""; //reset input box to prepare for new guess
 }
