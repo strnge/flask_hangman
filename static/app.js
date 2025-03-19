@@ -3,7 +3,6 @@
  * with assistance from cr0wlet
  * 03-2025
 */
-var game_data_container = null;
 var display_word = "";
 var display_graveyard = "";
 
@@ -19,11 +18,21 @@ function refresh_prompt(){
 //begin game logic, load game interface
 function init(){
     display_word = "";
+    display_graveyard = "";
     window.location.href = '/init';
 }
 
 function update_health(health){
     document.getElementById('health_counter').innerHTML = "Guesses remaining: ".concat(health);
+    if(health == 0){
+        if(confirm("You lost! Do you want to play another match?")){
+            init();
+        } 
+    } else if(!(/(\*+)/.test(display_word))){
+        if(confirm("You won! Do you want to play another match?")){
+            init();
+        }
+    }
 }
 
 //updates debug display on page
@@ -91,12 +100,12 @@ function submit_guess() {
             }).then(function(json){ // now we can use the fields within the json obj
                 if(json.debug != "game_over" && json.debug != "game_win") {
                     display_word = json.display_word;
-                    update_health(json.health);
                     update_word_display();
                     update_debug_state(json.debug);
                     update_game_message(json.debug);
                     update_winloss(json.wins, json.losses);
                     update_graveyard(json.graveyard);
+                    update_health(json.health);
                     console.log(json);
                 }
             });

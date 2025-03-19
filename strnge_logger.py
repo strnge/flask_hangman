@@ -1,3 +1,11 @@
+'''
+very simple logger
+written by strnge
+03-2025
+'''
+
+
+
 import datetime
 
 def start_log(filename):

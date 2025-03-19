@@ -57,6 +57,7 @@ def reveal_word():
                 word_to_list[reveal_list[i]] = session["graveyard"][-1]
             session["display_word"] = ''.join(word_to_list)
     if('*' not in session["display_word"]):
+        strnge_logger.log_operation(curtime, "player win successfully", session["wins"])
         session["wins"] = session["wins"] + 1 
 
 # create json object of the important vars for the game
@@ -98,6 +99,7 @@ def new_game():
     session["health"] = 6
     session["graveyard"] = list()
     session["debug"] = "new_game"
+    strnge_logger.log_operation(curtime, "new game generation", "N/A")
     # generate json response for the client
     state = get_state()
     return state
@@ -109,15 +111,17 @@ def guess():
     strnge_logger.log_operation(curtime, "input processing", request_data)
 
     # regex search to make sure only 1 alpha character was guessed
-    # technically we should only have received this POST req if
+    # technically we should only have received this GET req if
     # the client-side verified that already but we double check in case
     # there are any issues on the client side
     if(re.search(r"^[A-Za-z]{1}$", request_data[0]) is not None):
         if(request_data[0] in session["graveyard"]):# check graveyard to see if this guess has been made already
             session["debug"] = "duplicate_guess"
         else:
-            session["graveyard"].append(request_data)# add guess to the end of the graveyard
+            session["graveyard"].append(request_data[0])# add guess to the end of the graveyard
             reveal_word()# search for the guessed character and modify health/display string as needed
+            if(session["health"] == 0):
+                strnge_logger.log_operation(curtime, "player lost", session["losses"])
     return get_state()
 
 # request scoreboard
