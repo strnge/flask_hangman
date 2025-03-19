@@ -1,8 +1,10 @@
-from flask import Flask,render_template,request,session,jsonify
+from flask import Flask,render_template,request,session,jsonify,redirect
 from markupsafe import escape
 import re
 import random
 import secrets
+import strnge_logger
+import datetime
 
 '''
 developed by strnge
@@ -16,6 +18,9 @@ with assistance from cr0wlet
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(8) # tokenize for the session, required
 
+curtime = datetime.datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+strnge_logger.start_log(curtime) # begin logging
+
 # generate word for game
 # open local word file, read in, strip out unnecesary chars, 
 # random.choice from the generated list, return that choice
@@ -28,7 +33,7 @@ def generate_word():
 
 # searches through the word for each occurence of a character, and returns a list of each position. 
 # if the returned list is empty, no occurences were found
-def find(s, ch):
+def search_char(s, ch):
     return [i for i, ltr in enumerate(s) if ltr == ch]
 
 
@@ -41,7 +46,7 @@ def reveal_word():
             session["display_word"] += "*"
         session["display_word"]
     else:
-        reveal_list = find(session["word"], session["graveyard"][-1])
+        reveal_list = search_char(session["word"], session["graveyard"][-1])
         if(not reveal_list):# bad guess! health decreased by 1, 
             session["health"] = session["health"]-1
             session["debug"] = "bad_guess"
@@ -51,7 +56,8 @@ def reveal_word():
             for i in range(len(reveal_list)):
                 word_to_list[reveal_list[i]] = session["graveyard"][-1]
             session["display_word"] = ''.join(word_to_list)
-    return
+    if('*' not in session["display_word"]):
+        session["wins"] = session["wins"] + 1 
 
 # create json object of the important vars for the game
 def get_state():
@@ -79,6 +85,8 @@ def init_game():
 
     new_game()
     
+    strnge_logger.log_operation(curtime, "app initialization", [session["word"],session["wins"],session["losses"],session["display_word"],session["health"],session["graveyard"],session["debug"]])
+
     return render_template('index.html', state=session["debug"], health=session["health"], wins=session["wins"], losses=session["losses"], display=session["display_word"], default_message="Hello!",motd="This is where the MOTD would go")
 
 # sets up a new game still in the same session(lets user continue accruing wins and losses)
@@ -95,9 +103,10 @@ def new_game():
     return state
 
 # client sends user's guess, check against word
-@app.route('/send_guess',methods=['POST'])
+@app.route('/send_guess',methods=['GET'])
 def guess():
-    request_data = escape(request.form.get("input_box"))
+    request_data = escape(request.args.get("input_box"))
+    strnge_logger.log_operation(curtime, "input processing", request_data)
 
     # regex search to make sure only 1 alpha character was guessed
     # technically we should only have received this POST req if
@@ -107,7 +116,7 @@ def guess():
         if(request_data[0] in session["graveyard"]):# check graveyard to see if this guess has been made already
             session["debug"] = "duplicate_guess"
         else:
-            session["graveyard"].append(request_data[0])# add guess to the end of the graveyard
+            session["graveyard"].append(request_data)# add guess to the end of the graveyard
             reveal_word()# search for the guessed character and modify health/display string as needed
     return get_state()
 

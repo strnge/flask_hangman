@@ -22,6 +22,10 @@ function init(){
     window.location.href = '/init';
 }
 
+function update_health(health){
+    document.getElementById('health_counter').innerHTML = "Guesses remaining: ".concat(health);
+}
+
 //updates debug display on page
 function update_debug_state(state){
     document.getElementById('state_debug').innerHTML = "State = ".concat(state);
@@ -60,9 +64,8 @@ function update_game_message(debug){
 
 function update_graveyard(graveyard){
     display_graveyard = "";
-    for (var char in graveyard){
-        display_graveyard += char;
-        display_graveyard += " ";
+    for (var character of graveyard){
+        display_graveyard += character + " ";
     }
     document.getElementById('graveyard').innerHTML = "Graveyard = ".concat(display_graveyard);
 }
@@ -79,20 +82,22 @@ function submit_guess() {
         update_debug_state("alpha_err");
     } else { 
         try{
+            console.log(guess);
             guess = guess.toLowerCase();
-            fetch("/send_guess", { // send a POST request with our guess, and receive back the game state as a response 
-                method: 'POST',
-                body: guess
+            fetch("/send_guess?input_box=" + guess, { // send a GET request with our guess, and receive back the game state as a response 
+                method: 'GET',
             }).then(function(response){ // we receieve the promise object and turn it into json with .json() 
                 return response.json();
             }).then(function(json){ // now we can use the fields within the json obj
                 if(json.debug != "game_over" && json.debug != "game_win") {
                     display_word = json.display_word;
+                    update_health(json.health);
                     update_word_display();
                     update_debug_state(json.debug);
                     update_game_message(json.debug);
                     update_winloss(json.wins, json.losses);
                     update_graveyard(json.graveyard);
+                    console.log(json);
                 }
             });
         } catch (err){
