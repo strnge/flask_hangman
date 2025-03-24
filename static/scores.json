@@ -29,12 +29,24 @@
             "score": 2
         },
         {
+            "name": "deimos",
+            "score": 2
+        },
+        {
             "name": "gordie",
             "score": -1
         },
         {
             "name": "test",
             "score": -1
+        },
+        {
+            "name": "mars",
+            "score": -3
+        },
+        {
+            "name": "punkerton",
+            "score": 1
         }
     ]
 }

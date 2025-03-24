@@ -16,12 +16,16 @@
         <p id="game_message">{{ default_message }}</p>
         <p id="score_container">Wins: {{ wins }} || Losses: {{ losses }}</p>
         <p id="word_container">Word: {{ display }}</p>
-        <p id="graveyard">Graveyard: </p>
-        <p id="state_debug">State = {{ state }}</p>
-        <form>
+        <div id="hidable_elements">
+            <p id="graveyard">Graveyard: </p>
+            <p id="state_debug">State = {{ state }}</p>
+        </div>
+        <form>         
             <input id="input_box" name="input_box" type="text">
-            <button type="button" onclick="submit_guess()">Submit guess</button>
-            <button type="button" onclick="init()">Restart</button>
+            <span style="display: none" id="submit_score"><button type="button" onclick="submit_score()">Submit to scoreboard</button></span>
+            <span id="submit_guess"><button type="button" onclick="submit_guess()">Submit guess</button></span>
+            <button type="button" onclick="prompt_restart()">Restart</button>
+            <a href="/"><button type="button">Return to start page</button></a>
         </form>
     </div>
 </div>
