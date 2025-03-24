@@ -6,11 +6,13 @@
 var display_word = "";
 var display_graveyard = "";
 
+/* initialization */
+
 //begin game logic, load game interface
 function init(){
     display_word = "";
     display_graveyard = "";
-    window.location.href = "/init";
+    location.href = "/init";
 }
 
 //inits a new game while keeping current score
@@ -18,7 +20,7 @@ function new_game(){
     display_word = "";
     display_graveyard = "";
    try{
-        fetch("/new_game",{
+        fetch("/new_game",{// fetch request, retrieves json response containing the state of the game
             method: "GET"
         }).then(function(response){
             return response.json();
@@ -29,6 +31,8 @@ function new_game(){
         console.log(err);
     }
 }
+
+/* prompts */
 
 //prompt user to play again
 //winner is a boolean value
@@ -46,7 +50,7 @@ function prompt_replay(winner){
         var score_button = document.getElementById("submit_guess");
         score_button.style.display = "none";
         var optional_ui = document.getElementById("hidable_elements");
-        optional_ui = optional_ui.style.display = "none";
+        optional_ui.style.display = "none";
     }
 }
 
@@ -58,6 +62,8 @@ function prompt_restart(){
         init();
     }
 }
+
+/* ui updates */
 
 //updates debug display on page
 function update_debug_state(state){
@@ -128,6 +134,8 @@ function update_health(health){
         prompt_replay(true);
     }
 }
+
+/* server submissions and responses */
 
 //uses fetch to send the user"s guess, then retrieve the JSON response with the current state of the game (was the guess successful, how much health is left, etc)
 function submit_guess() {
