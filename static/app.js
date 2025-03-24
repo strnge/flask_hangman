@@ -10,9 +10,12 @@ var display_graveyard = "";
 
 //begin game logic, load game interface
 function init(){
+    diff_menu = document.getElementById("difficulty");
+    diff_select = diff_menu.options[diff_menu.selectedIndex].value;
+
     display_word = "";
     display_graveyard = "";
-    location.href = "/init";
+    location.href = 'init?difficulty=' + diff_select;
 }
 
 //inits a new game while keeping current score

@@ -24,14 +24,16 @@ if(LOGGING==True):
     strnge_logger.start_log(curtime) # begin logging
 
 
+
 # V ----------- nonroute functions ----------- V #
+
 
 
 # generate word for game
 # open local word file, read in, strip out unnecesary chars, 
 # random.choice from the generated list, return that choice
-def generate_word():
-    with open('./static/words.txt','r') as f: 
+def generate_word(difficulty):
+    with open(f'./static/{difficulty}.txt','r') as f: 
         word_list = f.readlines()
         word_list = [item.strip() for item in word_list]
     word = random.choice(word_list)
@@ -51,10 +53,6 @@ def sort_scoreboard():
         scores_data['scoreboard'] = sorted_board #overwrite the unsorted board with the new sorted version
     with open('./static/scores.json','w') as scores_fw:
         scores_fw.write(json.dumps(scores_data, indent=4))
-
-
-# V ----------- routes ----------- V #
-
 
 # on first call, generates the display version of the word
 # on subsequent calls, searches the word of occurences of the last character guessed, 
@@ -92,6 +90,12 @@ def get_state():
                       }
     return jsonify(returnable_json)
 
+
+
+# V ----------- routes ----------- V #
+
+
+
 # welcome screen, leads to gameplay
 @app.route('/')
 def home():
@@ -101,10 +105,13 @@ def home():
 # TODO: implement difficulty selection, determines max length of word (easy could be 4-5, medium 5-6, hard 6+ only)
 @app.route('/init')
 def init_game():
+    
+    session["difficulty"] = request.args.get("difficulty")
+
     session["wins"] = 0
     session["losses"] = 0
 
-    new_game()
+    new_game(session["difficulty"])
     
     if(LOGGING==True):
         strnge_logger.log_operation(curtime, "app initialization", [session["word"],session["wins"],session["losses"]])
@@ -112,9 +119,12 @@ def init_game():
     return render_template('index.html', state=session["debug"], health=session["health"], wins=session["wins"], losses=session["losses"], display=session["display_word"], default_message="Hello!",motd="This is where the MOTD would go")
 
 # sets up a new game still in the same session(lets user continue accruing wins and losses)
+# difficulty parameter default value is None, which will be changed to medium if not set when the function is called
 @app.route('/new_game')
-def new_game():
-    session["word"] = generate_word() # generate word for the session
+def new_game(difficulty=None):
+    if difficulty is None:
+        difficulty = "medium"
+    session["word"] = generate_word(difficulty) # generate word for the session
     session["display_word"] = ""
     reveal_word() # initial call to generate display word
     session["health"] = 6
@@ -167,8 +177,6 @@ def update_board():
         with open('./static/scores.json','w') as scores_fw:
             scores_fw.write(json.dumps(sorted_board, indent=4))
     return "submitted"
-            
-
 
 # request scoreboard, pass the json to the template
 @app.route('/scoreboard')
