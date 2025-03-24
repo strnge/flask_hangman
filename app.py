@@ -1,4 +1,4 @@
-from flask import Flask,render_template,request,session,jsonify,redirect
+from flask import Flask,render_template,request,session,jsonify
 from markupsafe import escape
 from operator import itemgetter
 import re, random, datetime, secrets, json, strnge_logger
@@ -15,8 +15,9 @@ with assistance from cr0wlet
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(8) # tokenize for the session, required
 
-
-LOGGING=True
+'''TO ENABLE LOGGER, CHANGE THIS TO TRUE'''
+LOGGING=False
+'''TO ENABLE LOGGER, CHANGE THIS TO TRUE'''
 
 if(LOGGING==True):
     curtime = datetime.datetime.now().strftime("%Y-%m-%d %H-%M-%S")
