@@ -6,15 +6,6 @@
 var display_word = "";
 var display_graveyard = "";
 
-//should prompt if user tries to refresh?
-//TODO: doesn't work right now
-function prompt_restart(){
-    confirm_message = "Are you sure you want to restart?\nIt will erase your current game session without saving your score.";
-    if(confirm(confirm_message)){
-        init();
-    }
-}
-
 //begin game logic, load game interface
 function init(){
     display_word = "";
@@ -39,27 +30,6 @@ function new_game(){
     }
 }
 
-//updates game ui with json response data
-function updateUI(json){
-    display_word = json.display_word;
-    update_word_display();
-    update_debug_state(json.debug);
-    update_game_message(json.debug);
-    update_winloss(json.wins, json.losses);
-    update_graveyard(json.graveyard);
-    update_health(json.health);
-}
-
-//update health value on screen
-function update_health(health){
-    document.getElementById("health_counter").innerHTML = "Guesses remaining: ".concat(health);
-    if(health == 0){
-        prompt_replay(false);
-    } else if(!(/(\*+)/.test(display_word))){
-        prompt_replay(true);
-    }
-}
-
 //prompt user to play again
 //winner is a boolean value
 //if set to false, will display message indicating player lost - otherwise will display message indicating they won
@@ -77,6 +47,15 @@ function prompt_replay(winner){
         score_button.style.display = "none";
         var optional_ui = document.getElementById("hidable_elements");
         optional_ui = optional_ui.style.display = "none";
+    }
+}
+
+//should prompt if user tries to refresh?
+//TODO: doesn't work right now
+function prompt_restart(){
+    confirm_message = "Are you sure you want to restart?\nIt will erase your current game session without saving your score.";
+    if(confirm(confirm_message)){
+        init();
     }
 }
 
@@ -127,6 +106,27 @@ function update_graveyard(graveyard){
         display_graveyard += character + " ";
     }
     document.getElementById("graveyard").innerHTML = "Graveyard = ".concat(display_graveyard);
+}
+
+//updates game ui with json response data
+function updateUI(json){
+    display_word = json.display_word;
+    update_word_display();
+    update_debug_state(json.debug);
+    update_game_message(json.debug);
+    update_winloss(json.wins, json.losses);
+    update_graveyard(json.graveyard);
+    update_health(json.health);
+}
+
+//update health value on screen
+function update_health(health){
+    document.getElementById("health_counter").innerHTML = "Guesses remaining: ".concat(health);
+    if(health == 0){
+        prompt_replay(false);
+    } else if(!(/(\*+)/.test(display_word))){
+        prompt_replay(true);
+    }
 }
 
 //uses fetch to send the user"s guess, then retrieve the JSON response with the current state of the game (was the guess successful, how much health is left, etc)

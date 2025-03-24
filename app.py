@@ -23,6 +23,10 @@ if(LOGGING==True):
     curtime = datetime.datetime.now().strftime("%Y-%m-%d %H-%M-%S")
     strnge_logger.start_log(curtime) # begin logging
 
+
+# V ----------- nonroute functions ----------- V #
+
+
 # generate word for game
 # open local word file, read in, strip out unnecesary chars, 
 # random.choice from the generated list, return that choice
@@ -47,6 +51,10 @@ def sort_scoreboard():
         scores_data['scoreboard'] = sorted_board #overwrite the unsorted board with the new sorted version
     with open('./static/scores.json','w') as scores_fw:
         scores_fw.write(json.dumps(scores_data, indent=4))
+
+
+# V ----------- routes ----------- V #
+
 
 # on first call, generates the display version of the word
 # on subsequent calls, searches the word of occurences of the last character guessed, 
