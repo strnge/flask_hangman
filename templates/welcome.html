@@ -7,10 +7,20 @@
     <title>Hangman!</title>
     <script src="{{ url_for('static',filename='app.js') }}"></script>
 </head>
+<header class="header">
+    <h1 id="title">Hangman!</h1>
+    <h2 id="motd">MOTD: {{ motd }}</h2>
+</header>
 <body>
-<div id="main_container">
-    <div id="inner_container">
-        <h1>Hangman!</h1>
+<div class="main_container">
+    <div class="image_container">
+
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sollicitudin imperdiet volutpat. Proin vitae euismod libero, vel tempus ex. Pellentesque pulvinar nulla a lacinia venenatis. Maecenas rutrum blandit lacus in congue. Fusce nec porttitor nibh. Morbi fermentum finibus sem, hendrerit varius elit tempor a. Integer hendrerit blandit mauris, et faucibus nisi pharetra vel. Nam vehicula lorem augue, ut sollicitudin eros tempor in. Donec ultrices lacus felis, viverra sagittis velit gravida ut. Donec dolor turpis, commodo vel semper ut, tristique in eros. Phasellus ultricies ligula eget erat mollis varius. Vivamus facilisis augue a mi efficitur, in elementum sem posuere. Ut ut tellus enim.
+        </p>
+
+    </div>
+    <div class="menu_container">
         <p id="game_message">Welcome!</p>
         <p id="score_container"> </p>
         <p id="word_container">Click play to begin the game!</p>
@@ -24,6 +34,8 @@
         <button type="button" onclick="init()">Play!</button>
     </div>
 </div>
-
 </body>
+<footer class="footer">
+    bla bla bla
+</footer>
 </html>
