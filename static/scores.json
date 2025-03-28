@@ -33,6 +33,10 @@
             "score": 2
         },
         {
+            "name": "punkerton",
+            "score": 1
+        },
+        {
             "name": "gordie",
             "score": -1
         },
@@ -43,10 +47,6 @@
         {
             "name": "mars",
             "score": -3
-        },
-        {
-            "name": "punkerton",
-            "score": 1
         }
     ]
 }

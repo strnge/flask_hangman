@@ -1,35 +1,25 @@
 <!--scorepage template will go here-->
-<!DOCTYPE html>
-<html lang="en">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/styles.css') }}">
-<head>
-    <title>Hangman!</title>
-    <script src="{{ url_for('static',filename='app.js') }}"></script>
-</head>
-<body>
-<div id="main_container">
-    <div id="inner_container">
-        <h1>Hangman!</h1>
-        <table>
-            <tr>
-                <th>Scoreboard</th>
-            </tr>
-            <tr>
-                <th>Username</th>
-                <th>Score</th>
-            </tr>{% for value in board.scoreboard %}
-            <tr>
-                <td>{{ value.name }}</td>
-                <td>{{ value.score }}</td>
-            </tr>{% endfor %}    
-        </table>
-        <form>
-            <a href="/"><button type="button">Return to start page</button></a>
-        </form>
-    </div>
+<div class="image_container">
+    <p>
+        Imagine a trophy icon or something here
+    </p>
 </div>
-
-</body>
-</html>
+<div class="menu_container">
+    <h1>Hangman!</h1>
+    <table>
+        <tr>
+            <th>Scoreboard</th>
+        </tr>
+        <tr>
+            <th>Username</th>
+            <th>Score</th>
+        </tr>{% for value in board.scoreboard %}
+        <tr>
+            <td>{{ value.name }}</td>
+            <td>{{ value.score }}</td>
+        </tr>{% endfor %}    
+    </table>
+    <form>
+        <a href="/"><button type="button">Return to start page</button></a>
+    </form>
+</div>

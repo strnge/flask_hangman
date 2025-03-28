@@ -185,7 +185,7 @@ def scoreboard():
     with open('./static/scores.json', 'r') as scores_f:
         score_json = json.load(scores_f)
 
-    return render_template('score_page.html', board=score_json)
+    return render_template('index.html', body_template="score_page.html", board=score_json)
 
 # run localhost only
 if __name__ == '__main__':
