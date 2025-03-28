@@ -86,6 +86,16 @@ function update_winloss(wins, losses){
 //update the game message to display
 function update_game_message(debug){
     var msg_update = ""
+    var msg_color;
+    
+
+    //determine coloring of message, errors should be red to catch the user's attention
+    if(debug=="good_guess"){
+        msg_color = "black";
+    } else {
+        msg_color = "red";
+    }
+
     switch(debug){
         case "good_guess":
             msg_update = "Good guess!";
@@ -106,6 +116,7 @@ function update_game_message(debug){
             msg_update = "Please only use A-Z, 0-9, and underscores (_)"
     }
     document.getElementById("game_message").innerHTML = msg_update;
+    document.getElementById("game_message").style.color = msg_color;
 }
 
 //updates display of graveyard so user can keep track of previously guessed chars
