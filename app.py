@@ -99,10 +99,10 @@ def get_state():
 # welcome screen, leads to gameplay
 @app.route('/')
 def home():
-    return render_template('welcome.html')
+    return render_template('index.html', body_template="welcome.html")
 
 # initialize the session and the first round by calling new_game() after setting/resetting win and loss session vars
-# TODO: implement difficulty selection, determines max length of word (easy could be 4-5, medium 5-6, hard 6+ only)
+# also sets the difficulty - easy is 4-5 letter words, medium 6-7 and hard is 8+
 @app.route('/init')
 def init_game():
     
@@ -111,20 +111,19 @@ def init_game():
     session["wins"] = 0
     session["losses"] = 0
 
-    new_game(session["difficulty"])
+    new_game()
     
     if(LOGGING==True):
         strnge_logger.log_operation(curtime, "app initialization", [session["word"],session["wins"],session["losses"]])
 
-    return render_template('index.html', state=session["debug"], health=session["health"], wins=session["wins"], losses=session["losses"], display=session["display_word"], default_message="Hello!",motd="This is where the MOTD would go")
+    return render_template('index.html', body_template="game.html", state=session["debug"], health=session["health"], wins=session["wins"], losses=session["losses"], display=session["display_word"], default_message="Hello!",motd="This is where the MOTD would go")
 
 # sets up a new game still in the same session(lets user continue accruing wins and losses)
 # difficulty parameter default value is None, which will be changed to medium if not set when the function is called
 @app.route('/new_game')
-def new_game(difficulty=None):
-    if difficulty is None:
-        difficulty = "medium"
-    session["word"] = generate_word(difficulty) # generate word for the session
+def new_game():
+    
+    session["word"] = generate_word(session["difficulty"]) # generate word for the session
     session["display_word"] = ""
     reveal_word() # initial call to generate display word
     session["health"] = 6

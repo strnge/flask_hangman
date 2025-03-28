@@ -1,9 +1,23 @@
 h1,h2,h4 {
-    color: #3D0814;
+    color: #272727;
 }
 
 html,body {
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
     height: 100%;
+}
+
+.footer-nav{
+    color:#272727;
+    text-decoration: none;
+}
+
+.footer-nav:hover{
+    color:#5c4a4a;
+    text-decoration: none;
 }
 
 body{
@@ -20,7 +34,7 @@ body{
 }
 
 .footer {
-    background-color: #558564;
+    background-color: #596F62;
     justify-content: left;
     padding: 5px;
     flex-shrink: 0;

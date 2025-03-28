@@ -62,7 +62,7 @@ function prompt_replay(winner){
 function prompt_restart(){
     confirm_message = "Are you sure you want to restart?\nIt will erase your current game session without saving your score.";
     if(confirm(confirm_message)){
-        init();
+        new_game();
     }
 }
 

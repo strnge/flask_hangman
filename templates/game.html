@@ -1,0 +1,22 @@
+<div class="image_container">
+    <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sollicitudin imperdiet volutpat. Proin vitae euismod libero, vel tempus ex. Pellentesque pulvinar nulla a lacinia venenatis. Maecenas rutrum blandit lacus in congue. Fusce nec porttitor nibh. Morbi fermentum finibus sem, hendrerit varius elit tempor a. Integer hendrerit blandit mauris, et faucibus nisi pharetra vel. Nam vehicula lorem augue, ut sollicitudin eros tempor in. Donec ultrices lacus felis, viverra sagittis velit gravida ut. Donec dolor turpis, commodo vel semper ut, tristique in eros. Phasellus ultricies ligula eget erat mollis varius. Vivamus facilisis augue a mi efficitur, in elementum sem posuere. Ut ut tellus enim.
+    </p>
+</div>
+<div class="menu_container">
+    <p id="health_counter">Guesses remaining: {{ health }}</p>
+    <p id="game_message">{{ default_message }}</p>
+    <p id="score_container">Wins: {{ wins }} || Losses: {{ losses }}</p>
+    <p id="word_container">Word: {{ display }}</p>
+    <div id="hidable_elements">
+        <p id="graveyard">Graveyard: </p>
+        <p id="state_debug">State = {{ state }}</p>
+    </div>
+    <form>         
+        <input id="input_box" name="input_box" type="text">
+        <span style="display: none" id="submit_score"><button type="button" onclick="submit_score()">Submit to scoreboard</button></span>
+        <span id="submit_guess"><button type="button" onclick="submit_guess()">Submit guess</button></span>
+        <button type="button" onclick="prompt_restart()">Restart</button>
+        <a href="/"><button type="button">Return to start page</button></a>
+    </form>
+</div>
