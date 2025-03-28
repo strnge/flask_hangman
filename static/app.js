@@ -2,7 +2,7 @@
  * developed by strnge
  * with assistance from cr0wlet
  * 03-2025
-*/
+ */
 var display_word = "";
 var display_graveyard = "";
 
@@ -57,8 +57,8 @@ function prompt_replay(winner){
     }
 }
 
-//should prompt if user tries to refresh?
-//TODO: doesn't work right now
+//should prompt if user tries to restart game
+//does not do anything if they refresh the page
 function prompt_restart(){
     confirm_message = "Are you sure you want to restart?\nIt will erase your current game session without saving your score.";
     if(confirm(confirm_message)){
@@ -171,7 +171,7 @@ function submit_guess() {
 //submits score via fetch to be stored in the scores file
 function submit_score(){
     var username = document.getElementById("input_box").value;
-    if(!/\W+/g.test(username)){
+    if(!/\W+/g.test(username)){//regex to make sure they're only entering word characters 
         try{
             fetch("/update_board?input_box=" + username, { // send a GET request with our guess, and receive back the game state as a JSON response 
                 method: "GET"
