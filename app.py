@@ -1,4 +1,4 @@
-from flask import Flask,render_template,request,session,jsonify
+from flask import Flask,render_template,request,session,jsonify,redirect
 from markupsafe import escape
 from operator import itemgetter
 import re, random, datetime, secrets, json, strnge_logger
@@ -124,18 +124,20 @@ def init_game():
 # difficulty parameter default value is None, which will be changed to medium if not set when the function is called
 @app.route('/new_game')
 def new_game():
-    
-    session["word"] = generate_word(session["difficulty"]) # generate word for the session
-    session["display_word"] = ""
-    reveal_word() # initial call to generate display word
-    session["health"] = 6
-    session["graveyard"] = list() # empty list
-    session["debug"] = "new_game"
-    if(LOGGING==True):
-        strnge_logger.log_operation(curtime, "new game generation", [session["word"],session["display_word"],session["health"],session["graveyard"],session["debug"]])
-    # generate json response for the client
-    state = get_state()
-    return state
+    if(session["difficulty"]): # verify the request is coming from the appropriate page
+        session["word"] = generate_word(session["difficulty"]) # generate word for the session
+        session["display_word"] = ""
+        reveal_word() # initial call to generate display word
+        session["health"] = 6
+        session["graveyard"] = list() # empty list
+        session["debug"] = "new_game"
+
+        if(LOGGING==True):
+            strnge_logger.log_operation(curtime, "new game generation", [session["word"],session["display_word"],session["health"],session["graveyard"],session["debug"]])
+        # generate json response for the client
+        return get_state()
+    else:
+        return redirect("/") # if the request came from the wrong page or without appropriate data, send user back to home page        
 
 # client sends user's guess, check against word
 @app.route('/send_guess',methods=['GET'])
@@ -143,41 +145,44 @@ def guess():
     request_data = escape(request.args.get("input_box"))
     if(LOGGING==True):
         strnge_logger.log_operation(curtime, "input processing", request_data)
-
-    # regex search to make sure only 1 alpha character was guessed
+ # regex search to make sure only 1 alpha character was guessed
     # technically we should only have received this GET req if
     # the client-side verified that already but we double check in case
     # there are any issues on the client side
     if(re.search(r"^[A-Za-z]{1}$", request_data[0]) is not None):
-        if(request_data[0] in session["graveyard"]):# check graveyard to see if this guess has been made already
+        if(request_data[0] in session["graveyard"]): # check graveyard to see if this guess has been made already
             session["debug"] = "duplicate_guess"
         else:
-            session["graveyard"].append(request_data[0])# add guess to the end of the graveyard
-            reveal_word()# search for the guessed character and modify health/display string as needed
-            if(session["health"] == 0):# user lost :(
+            session["graveyard"].append(request_data[0]) # add guess to the end of the graveyard
+            reveal_word() # search for the guessed character and modify health/display string as needed
+            if(session["health"] == 0): # user lost :(
                 session["losses"] = session["losses"] + 1
                 if(LOGGING==True):
                     strnge_logger.log_operation(curtime, "player lost", "losses: " + str(session["losses"]))
     return get_state()
-
+    
 # ported function from previously written console hangman, adds new user to the list
 @app.route('/update_board')
 def update_board():
-        # open scores, add to list
-    with open('./static/scores.json','r') as scores_f:
-        sorted_board = json.load(scores_f)
-        username = escape(request.args.get("input_box"))
-        if(re.search(r"\W+", username) is not None): # double checking input from user
-            return "name error"
-        userscore = session["wins"] - session["losses"]
-        if(LOGGING==True):
-            strnge_logger.log_operation(curtime, "scoreboard update", "score: " + str(userscore) + " username: " + username)
-        # append to the board in memory
-        sorted_board['scoreboard'].append(dict(name=username,score=userscore))
-        # write the updated board to the scores file
-        with open('./static/scores.json','w') as scores_fw:
-            scores_fw.write(json.dumps(sorted_board, indent=4))
-    return "submitted"
+    
+    if(request.args.get("input_box") != None): # verify the request is coming from the appropriate page
+            # open scores, add to list
+        with open('./static/scores.json','r') as scores_f:
+            sorted_board = json.load(scores_f)
+            username = escape(request.args.get("input_box"))
+            if(re.search(r"\W+", username) is not None): # double checking input from user
+                return "name error"
+            userscore = session["wins"] - session["losses"]
+            if(LOGGING==True):
+                strnge_logger.log_operation(curtime, "scoreboard update", "score: " + str(userscore) + " username: " + username)
+            # append to the board in memory
+            sorted_board['scoreboard'].append(dict(name=username,score=userscore))
+            # write the updated board to the scores file
+            with open('./static/scores.json','w') as scores_fw:
+                scores_fw.write(json.dumps(sorted_board, indent=4))
+        return "submitted"
+    else:
+        return redirect("/") # if the request came from the wrong page or without appropriate data, send user back to home page
 
 # request scoreboard, pass the json to the template
 @app.route('/scoreboard')
