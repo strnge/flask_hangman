@@ -142,6 +142,22 @@ function updateUI(json){
 //update health value on screen
 function update_health(health){
     document.getElementById("health_counter").innerHTML = "Guesses remaining: ".concat(health);
+    var visdis = document.getElementById("visdis");
+    switch(health){
+        case 6:
+        case 4:
+        case 2:
+        case 0:
+            visdis.src = "./static/images/one.png";
+            visdis.alt = "placeholder image 1";
+            break;
+        case 5:
+        case 3:
+        case 1:
+            visdis.src = "./static/images/two.png";
+            visdis.alt = "placeholder image 2";
+            break;
+    }
     if(health == 0){
         prompt_replay(false);
     } else if(!(/(\*+)/.test(display_word))){
