@@ -1,5 +1,5 @@
 h1,h2,h4 {
-    color: #272727;
+    color: #5AA9E6;
 }
 
 html,body {
@@ -19,7 +19,7 @@ body{
 
 input[type=text]{
     border-radius: 5px;
-    border: none;
+    border: 1px, solid;
     width: 20%;
 }
 
@@ -32,31 +32,48 @@ button{
     border:none;
 }
 
-button:hover{
-    background-color: aliceblue;
+.button1{
+    background-color: #FFEE99;
+}
+
+.button1:hover{
+    background-color: #FFE45C;
+}
+
+.button2{
+    background-color: #FFD6E2;
+}
+
+.button2:hover{
+    background-color: #FF709B;
 }
 
 .footer-nav{
-    color: #272727;
+    color: #7FC8F8;
     text-decoration: none;
 }
 
 .footer-nav:hover{
-    color:#5c4a4a;
+    color:#FF709B;
     text-decoration: none;
 }
 
 .header {
-    background-color: #596F62;
+    background-color: #FFEE99;
     justify-content: left;
     padding-left: 1%;
 }
 
 .footer {
-    background-color: #596F62;
+    background-color: #FFD6E2;
     justify-content: left;
     padding: 5px;
     flex-shrink: 0;
+}
+
+.footer p{
+    color:#5AA9E6;
+    font-weight: 600;
 }
 
 .main_container {
@@ -67,7 +84,7 @@ button:hover{
 }
 
 .image_container {
-    background-color: #C3D898;
+    background-color: #F9F9F9;
     max-width: 60%;
     text-align: center;
     margin:0 auto;
@@ -75,7 +92,7 @@ button:hover{
 }
 
 .menu_container {
-    background-color: #C3D898;
+    background-color: #F9F9F9;
     width: 100%;
     text-align: center;
     margin:0 auto;
