@@ -195,6 +195,13 @@ function submit_guess() {
     document.getElementById("input_box").value = ""; //reset input box to prepare for new guess
 }
 
+function scoreboard_redirect(){
+    diff_menu = document.getElementById("difficulty");
+    diff_select = diff_menu.options[diff_menu.selectedIndex].value;
+
+    location.href = "scoreboard?difficulty=" + diff_select;
+}
+
 //submits score via fetch to be stored in the scores file
 function submit_score(){
     var username = document.getElementById("input_box").value;

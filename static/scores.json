@@ -2,51 +2,73 @@
     "scoreboard": [
         {
             "name": "tapi",
-            "score": 99
+            "score": 99,
+            "difficulty": "hard"
         },
         {
             "name": "rae",
-            "score": 10
+            "score": 10,
+            "difficulty": "hard"
         },
         {
             "name": "sally",
-            "score": 9
+            "score": 9,
+            "difficulty": "hard"
         },
         {
             "name": "kit",
-            "score": 8
+            "score": 8,
+            "difficulty": "hard"
         },
         {
             "name": "yuki",
-            "score": 5
+            "score": 5,
+            "difficulty": "medium"
         },
         {
-            "name": "moon",
-            "score": 3
+            "name": "luna",
+            "score": 3,
+            "difficulty": "medium"
         },
         {
             "name": "phobos",
-            "score": 2
+            "score": 2,
+            "difficulty": "medium"
         },
         {
             "name": "deimos",
-            "score": 2
+            "score": 2,
+            "difficulty": "medium"
         },
         {
             "name": "punkerton",
-            "score": 1
+            "score": 1,
+            "difficulty": "easy"
+        },
+        {
+            "name": "lucas",
+            "score": 1,
+            "difficulty": "easy"
         },
         {
             "name": "gordie",
-            "score": -1
+            "score": -1,
+            "difficulty": "easy"
         },
         {
             "name": "test",
-            "score": -1
+            "score": -1,
+            "difficulty": "easy"
         },
         {
             "name": "mars",
-            "score": -3
+            "score": -3,
+            "difficulty": "easy"
+        },
+        {
+            "name": "submittest",
+            "score": 1,
+            "difficulty": "easy"
         }
     ]
 }

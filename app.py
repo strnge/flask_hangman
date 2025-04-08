@@ -109,6 +109,8 @@ def home():
 def init_game():
     
     session["difficulty"] = request.args.get("difficulty")
+    if(session["difficulty"] == "all"):
+        return home()
 
     session["wins"] = 0
     session["losses"] = 0
@@ -173,26 +175,35 @@ def update_board():
             if(re.search(r"\W+", username) is not None): # double checking input from user
                 return "name error"
             userscore = session["wins"] - session["losses"]
+            difficulty = session["difficulty"]
             if(LOGGING==True):
                 strnge_logger.log_operation(curtime, "scoreboard update", "score: " + str(userscore) + " username: " + username)
             # append to the board in memory
-            sorted_board['scoreboard'].append(dict(name=username,score=userscore))
+            sorted_board['scoreboard'].append(dict(name=username,score=userscore,difficulty=difficulty))
             # write the updated board to the scores file
             with open('./static/scores.json','w') as scores_fw:
                 scores_fw.write(json.dumps(sorted_board, indent=4))
-        return "submitted"
+        return "submitted" 
     else:
         return redirect("/") # if the request came from the wrong page or without appropriate data, send user back to home page
 
 # request scoreboard, pass the json to the template
 @app.route('/scoreboard')
 def scoreboard():
+    selected_difficulty = request.args.get("difficulty")
+
+    if(selected_difficulty != None):
+        difficulty = selected_difficulty
+    elif("difficulty" in session.keys()):
+        difficulty = session["difficulty"]
+    else:
+        difficulty = "all"
     sort_scoreboard()
 
     with open('./static/scores.json', 'r') as scores_f:
         score_json = json.load(scores_f)
 
-    return render_template('index.html', body_template="score_page.html", board=score_json, motd=generate_word("motd"))
+    return render_template('index.html', body_template="score_page.html", board=score_json, motd=generate_word("motd"), passed_diff=difficulty)
 
 # run localhost only
 if __name__ == '__main__':
