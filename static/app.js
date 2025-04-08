@@ -210,7 +210,7 @@ function submit_score(){
             fetch("/update_board?input_box=" + username, { // send a GET request with our guess, and receive back the game state as a JSON response 
                 method: "GET"
             }).then(function(response){ // we receieve the promise object and turn it into json with .json() 
-                if(response.text == "submitted"){
+                if(response.ok){
                     location.href = "/scoreboard";
                 } else {
                     console.log("error submitting score, check logs");
