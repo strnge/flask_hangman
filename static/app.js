@@ -159,7 +159,7 @@ function update_health(health){
             break;
     }
     if(health == 0){
-        prompt_replay(false);
+        prompt_replay(false);//TODO: CHANGE PROMPTS TO DYNAMIC UI LIKE THE REST OF UI
     } else if(!(/(\*+)/.test(display_word))){
         prompt_replay(true);
     }

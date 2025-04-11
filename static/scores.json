@@ -51,6 +51,11 @@
             "difficulty": "easy"
         },
         {
+            "name": "submittest",
+            "score": 1,
+            "difficulty": "easy"
+        },
+        {
             "name": "gordie",
             "score": -1,
             "difficulty": "easy"
@@ -61,13 +66,13 @@
             "difficulty": "easy"
         },
         {
-            "name": "mars",
-            "score": -3,
-            "difficulty": "easy"
+            "name": "zouber",
+            "score": -1,
+            "difficulty": "medium"
         },
         {
-            "name": "submittest",
-            "score": 1,
+            "name": "mars",
+            "score": -3,
             "difficulty": "easy"
         }
     ]
