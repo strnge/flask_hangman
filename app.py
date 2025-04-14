@@ -169,17 +169,36 @@ def update_board():
     
     if(request.args.get("input_box") != None): # verify the request is coming from the appropriate page
             # open scores, add to list
+        nameUpdate = False
         with open('./static/scores.json','r') as scores_f:
+            
             sorted_board = json.load(scores_f)
             username = escape(request.args.get("input_box"))
+            
             if(re.search(r"\W+", username) is not None): # double checking input from user
                 return "name error"
+            
             userscore = session["wins"] - session["losses"]
             difficulty = session["difficulty"]
+            
+            # searches through the scoreboard entries for if this name already exists, if it does overwrite previous score if it is HIGHER
+            entry_list = list(sorted_board["scoreboard"])
+            for item in entry_list:
+                if (item["name"]==username and int(item["score"]) < userscore):
+                    if(LOGGING==True):
+                        strnge_logger.log_operation(curtime, "scoreboard update", "score: " + str(userscore) + " username: " + username)
+                    item["score"] = userscore
+                    nameUpdate = True
+                elif(item["name"]==username):
+                    return "hiscoreunbeaten"
+            
             if(LOGGING==True):
                 strnge_logger.log_operation(curtime, "scoreboard update", "score: " + str(userscore) + " username: " + username)
-            # append to the board in memory
-            sorted_board['scoreboard'].append(dict(name=username,score=userscore,difficulty=difficulty))
+            
+            if(nameUpdate==False):
+                # append to the board in memory
+                sorted_board['scoreboard'].append(dict(name=username,score=userscore,difficulty=difficulty))
+            
             # write the updated board to the scores file
             with open('./static/scores.json','w') as scores_fw:
                 scores_fw.write(json.dumps(sorted_board, indent=4))

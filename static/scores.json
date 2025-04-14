@@ -31,6 +31,11 @@
             "difficulty": "medium"
         },
         {
+            "name": "test",
+            "score": 3,
+            "difficulty": "easy"
+        },
+        {
             "name": "phobos",
             "score": 2,
             "difficulty": "medium"
@@ -56,17 +61,7 @@
             "difficulty": "easy"
         },
         {
-            "name": "test",
-            "score": 0,
-            "difficulty": "easy"
-        },
-        {
             "name": "gordie",
-            "score": -1,
-            "difficulty": "easy"
-        },
-        {
-            "name": "test",
             "score": -1,
             "difficulty": "easy"
         },
