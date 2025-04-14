@@ -56,6 +56,11 @@
             "difficulty": "easy"
         },
         {
+            "name": "test",
+            "score": 0,
+            "difficulty": "easy"
+        },
+        {
             "name": "gordie",
             "score": -1,
             "difficulty": "easy"

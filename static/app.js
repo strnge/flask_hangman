@@ -22,7 +22,9 @@ function init(){
 function new_game(){
     display_word = "";
     display_graveyard = "";
-   try{
+    document.getElementById("gameplay").style.display = "block";
+    document.getElementById("replay").style.display = "none";
+    try{
         fetch("/new_game",{// fetch request, retrieves json response containing the state of the game
             method: "GET"
         }).then(function(response){
@@ -42,19 +44,13 @@ function new_game(){
 //if set to false, will display message indicating player lost - otherwise will display message indicating they won
 function prompt_replay(winner){
     if(winner == true)
-        prompt = "You won! Do you want to play another match?";
+        user_prompt = "You won!";
     else
-        prompt = "You lost! Do you want to play another match?";
-    if(confirm(prompt)){
-        new_game();
-    } else {
-        var score_button = document.getElementById("submit_score");
-        score_button.style.display = "block";
-        var score_button = document.getElementById("submit_guess");
-        score_button.style.display = "none";
-        var optional_ui = document.getElementById("hidable_elements");
-        optional_ui.style.display = "none";
-    }
+        user_prompt = "You lost!";
+
+    document.getElementById("winlosemsg").innerHTML = user_prompt;
+    document.getElementById("gameplay").style.display = "none";
+    document.getElementById("replay").style.display = "block";
 }
 
 //should prompt if user tries to restart game
@@ -67,6 +63,15 @@ function prompt_restart(){
 }
 
 /* ui updates */
+
+//makes the score submission form visible while also disabling the guess form
+function update_score_sub_visibility(){
+    document.getElementById("gameplay").style.display = "block";
+    document.getElementById("replay").style.display = "none";
+    document.getElementById("submit_score").style.display = "block";
+    document.getElementById("submit_guess").style.display = "none";
+    document.getElementById("grave_and_state").style.display = "none";
+}
 
 //updates debug display on page
 function update_debug_state(state){

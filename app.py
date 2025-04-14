@@ -44,7 +44,7 @@ def generate_word(difficulty):
 # searches through the word for each occurence of a character, and returns a list of each position. 
 # if the returned list is empty, no occurences were found
 def search_char(s, ch):
-    return [i for i, ltr in enumerate(s) if ltr == ch]
+    return [i for i, ltr in enumerate(s) if ltr == ch] #specifically this uses enumerate to generate a list of the indexes of the character we are searching for, in the word we are searching
 
 # takes the scores file, parses and sorts by score descending, then writes the sorted version back ot the file
 def sort_scoreboard():
