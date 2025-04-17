@@ -7,8 +7,12 @@ written by strnge
 
 
 import datetime
+import os
 
 def start_log(filename):
+    if(not os.path.exists('./logs/')):
+        os.makedirs('./logs/')
+    
     with open(f'./logs/{filename}.log', 'w') as file:
         curtime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         file.write(f"Starting log at {curtime}\n")
