@@ -3,6 +3,8 @@
  * with assistance from cr0wlet
  * 03-2025
  */
+
+//'global' values, just used locally for visual elements
 var display_word = "";
 var display_graveyard = "";
 
@@ -200,6 +202,8 @@ function submit_guess() {
     document.getElementById("input_box").value = ""; //reset input box to prepare for new guess
 }
 
+//redirects user to scoreboard page and requests the scoreboard be filtered to whatever selection the user has made
+//scoreboard will default to All if accessed directly without first setting a difficulty
 function scoreboard_redirect(){
     diff_menu = document.getElementById("difficulty");
     diff_select = diff_menu.options[diff_menu.selectedIndex].value;
